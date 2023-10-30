@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+	<meta name="format-detection" content="telephone=no">
+	<title>smart ani</title>
+	<style>
+		*	{margin:0;padding:0;}
+		html	{-webkit-text-size-adjust:none;font-size:10px;}
+		body	{line-height:1.3;font-size:1.6rem;color:#000;}
+		.section	{height:150vh;position:relative;background:linear-gradient(to bottom,  #d33 0%,#000 100%);}
+		#square_1	{width:10.0rem;height:10.0rem;position:absolute;left:20px;top:20px;background-color:rgba(255, 255, 255, 0.9);}
+		#square_2	{width:10.0rem;height:10.0rem;position:absolute;right:100px;top:30px;background-color:rgba(255, 255, 255, 0.5);}
+		#square_3	{width:10.0rem;height:10.0rem;position:absolute;left:40px;top:100px;background-color:rgba(0, 0, 0, 0.5);}
+		#square_4	{width:10.0rem;height:10.0rem;position:absolute;right:40px;top:900px;background-color:rgba(0, 0, 0, 0.9);}
+		#circle	{width:20.0rem;height:20.0rem;position:absolute;right:20px;top:20px;border-radius:50%;background-color:#ff0;}
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<div class="section_1 section"></div>
+	<div class="section_2 section">
+		<div id="square_1"></div>
+		<div id="square_2"></div>
+		<div id="square_3"></div>
+		<div id="square_4"></div>
+
+	</div>
+	<div class="section_3 section">
+		<div id="circle"></div>
+	</div>
+</div>
+<script src="SmartAni.js"></script>
+<script>
+	const square_1 = new SmartAni('#square_1', {
+		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
+		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom,
+		css: {
+			translateY: {
+				from: 0,
+				to: 1200
+			}
+		}
+	});
+	const square_2 = new SmartAni('#square_2', {
+		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
+		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom / 1.5,
+		css: {
+			translateX: {
+				from: 0,
+				to: -500
+			},
+			translateY: {
+				from: -200,
+				to: 100
+			},
+			skewX: {
+				from: 1,
+				to: 0
+			},
+			skewY: {
+				from: 1,
+				to: 0
+			}
+		}
+	});
+	const square_3 = new SmartAni('#square_3', {
+		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
+		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom,
+		css: {
+			translateX: {
+				from: 0,
+				to: 100
+			},
+			translateY: {
+				from: 0,
+				to: 800
+			}
+		}
+	});
+	const square_4 = new SmartAni('#square_4', {
+		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
+		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom,
+		css: {
+			translateY: {
+				from: 0,
+				to: -800
+			}
+		}
+	});
+
+	const circle = new SmartAni('#circle', {
+		start: window.scrollY + document.querySelector('.section_3').getBoundingClientRect().top,
+		end: window.scrollY + document.querySelector('.section_3').getBoundingClientRect().bottom,
+		css: {
+			translateX: {
+				from: 0,
+				to: -500
+			},
+			translateY: {
+				from: 0,
+				to: 700
+			},
+			scaleX: {
+				from: 1,
+				to: 0.1
+			},
+			scaleY: {
+				from: 1,
+				to: 0.1
+			}
+		},
+		trigger: 1
+	});
+</script>
+</body>
+</html>
