@@ -8,13 +8,24 @@
 	<style>
 		*	{margin:0;padding:0;}
 		html	{-webkit-text-size-adjust:none;font-size:10px;}
-		body	{line-height:1.3;font-size:1.6rem;color:#000;}
-		.section	{height:150vh;position:relative;background:linear-gradient(to bottom,  #d33 0%,#000 100%);}
-		#square_1	{width:10.0rem;height:10.0rem;position:absolute;left:20px;top:20px;background-color:rgba(255, 255, 255, 0.9);}
-		#square_2	{width:10.0rem;height:10.0rem;position:absolute;right:100px;top:30px;background-color:rgba(255, 255, 255, 0.5);}
-		#square_3	{width:10.0rem;height:10.0rem;position:absolute;left:40px;top:100px;background-color:rgba(0, 0, 0, 0.5);}
-		#square_4	{width:10.0rem;height:10.0rem;position:absolute;right:40px;top:900px;background-color:rgba(0, 0, 0, 0.9);}
-		#circle	{width:20.0rem;height:20.0rem;position:absolute;right:20px;top:20px;border-radius:50%;background-color:#ff0;}
+		body	{font-family:Arial, Helvetica, sans-serif;line-height:1.3;font-size:1.6rem;color:#000;}
+		.section	{height:100vh;min-height:1000px;position:relative;background:linear-gradient(to bottom,  #d33 0%,#000 100%);}
+		#square_1	{width:10.0rem;height:10.0rem;position:absolute;left:20px;top:20px;background-color:rgba(255, 255, 255, 1);}
+		#square_2	{width:10.0rem;height:10.0rem;position:absolute;right:100px;top:30px;background-color:rgba(255, 255, 255, 1);}
+		#square_3	{width:10.0rem;height:10.0rem;position:absolute;left:40px;top:100px;background-color:rgba(0, 0, 0, 1);}
+		#square_4	{width:10.0rem;height:10.0rem;position:absolute;right:40px;top:900px;background-color:rgba(0, 0, 0, 1);}
+		#circle_1	{width:20.0rem;height:20.0rem;position:absolute;left:20px;top:20px;border-radius:10px;background-color:#ff0;}
+		#circle_2	{width:20.0rem;height:20.0rem;position:absolute;right:20px;top:20px;border-radius:10px;background-color:#000;}
+		#circle_3	{width:20.0rem;height:20.0rem;position:absolute;left:20px;bottom:20px;border-radius:10px;background-color:#fff;}
+		#circle_4	{width:20.0rem;height:20.0rem;position:absolute;right:20px;bottom:20px;border-radius:10px;background-color:#00f;}
+		.section_4 .pic	{width:200px;height:200px;position:absolute;background-color:#fff;}
+		.section_4 .pic_1	{left:100px;top:200px;background-color:#000;}
+		.section_4 .pic_2	{right:100px;top:100px;background-color:#000;}
+		.section_4 .pic_3	{left:120px;bottom:100px;}
+		.section_4 .pic_4	{right:120px;bottom:200px;}
+		.section_5	{height:300vh;min-height:3000px;background:#000;}
+		.section_5 .content	{height:100vh;position:sticky;top:0;z-index:1;}
+		.section_5 .content .txt	{display:flex;justify-content:center;align-items:center;height:100%;font-size:40px;font-weight:bold;color:#fff;}
 	</style>
 </head>
 <body>
@@ -25,28 +36,51 @@
 		<div id="square_2"></div>
 		<div id="square_3"></div>
 		<div id="square_4"></div>
-
 	</div>
 	<div class="section_3 section">
-		<div id="circle"></div>
+		<div id="circle_1"></div>
+		<div id="circle_2"></div>
+		<div id="circle_3"></div>
+		<div id="circle_4"></div>
 	</div>
+	<div class="section_4 section">
+		<div class="pic_1 pic"></div>
+		<div class="pic_2 pic"></div>
+		<div class="pic_3 pic"></div>
+		<div class="pic_4 pic"></div>
+	</div>
+	<div class="section_5 section">
+		<div class="content">
+			<p class="txt">Lorem ipsum dolor sit amet.</p>
+		</div>
+	</div>
+	<div class="section_6 section"></div>
 </div>
 <script src="SmartAni.js"></script>
 <script>
-	const square_1 = new SmartAni('#square_1', {
-		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
-		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom,
+	new SmartAni('#square_1', {
+		triggerElement: '.section_2',
+		// triggerHeight: 100,
 		css: {
+			opacity: {
+				from: 0,
+				to: 1
+			},
 			translateY: {
 				from: 0,
-				to: 1200
+				to: 800
 			}
 		}
 	});
-	const square_2 = new SmartAni('#square_2', {
-		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
-		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom / 1.5,
+	
+	new SmartAni('#square_2', {
+		triggerElement: '.section_2',
+		triggerHeight: 60,
 		css: {
+			opacity: {
+				from: 0,
+				to: 1
+			},
 			translateX: {
 				from: 0,
 				to: -500
@@ -65,9 +99,9 @@
 			}
 		}
 	});
-	const square_3 = new SmartAni('#square_3', {
-		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
-		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom,
+	
+	new SmartAni('#square_3', {
+		triggerElement: '.section_2',
 		css: {
 			translateX: {
 				from: 0,
@@ -76,23 +110,54 @@
 			translateY: {
 				from: 0,
 				to: 800
+			},
+			opacity: {
+				from: 0
 			}
 		}
 	});
-	const square_4 = new SmartAni('#square_4', {
-		start: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().top,
-		end: window.scrollY + document.querySelector('.section_2').getBoundingClientRect().bottom,
+	
+	new SmartAni('#square_4', {
+		triggerElement: '.section_2',
+		triggerHeight: 80,
 		css: {
 			translateY: {
 				from: 0,
 				to: -800
+			},
+			opacity: {
+				from: 0
 			}
 		}
 	});
-
-	const circle = new SmartAni('#circle', {
-		start: window.scrollY + document.querySelector('.section_3').getBoundingClientRect().top,
-		end: window.scrollY + document.querySelector('.section_3').getBoundingClientRect().bottom,
+	
+	new SmartAni('#circle_1', {
+		triggerElement: '.section_3',
+		css: {
+			translateX: {
+				from: 0,
+				to: 500
+			},
+			translateY: {
+				from: 0,
+				to: 700
+			},
+			scaleX: {
+				from: 1,
+				to: 0.1
+			},
+			scaleY: {
+				from: 1,
+				to: 0.1
+			},
+			opacity: {
+				to: 0
+			}
+		}
+	});
+	
+	new SmartAni('#circle_2', {
+		triggerElement: '.section_3',
 		css: {
 			translateX: {
 				from: 0,
@@ -109,9 +174,135 @@
 			scaleY: {
 				from: 1,
 				to: 0.1
+			},
+			opacity: {
+				to: 0
 			}
-		},
-		trigger: 1
+		}
+	});
+	
+	new SmartAni('#circle_3', {
+		triggerElement: '.section_3',
+		triggerHeight: 200,
+		css: {
+			translateX: {
+				from: 0,
+				to: 500
+			},
+			translateY: {
+				from: 0,
+				to: -700
+			},
+			scaleX: {
+				from: 1,
+				to: 0
+			},
+			scaleY: {
+				from: 1,
+				to: 0
+			},
+			opacity: {
+				to: 0
+			}
+		}
+	});
+	
+	new SmartAni('#circle_4', {
+		triggerElement: '.section_3',
+		triggerHeight: 200,
+		css: {
+			translateX: {
+				from: 0,
+				to: -500
+			},
+			translateY: {
+				from: 0,
+				to: -700
+			},
+			scaleX: {
+				from: 1,
+				to: 0
+			},
+			scaleY: {
+				from: 1,
+				to: 0
+			},
+			opacity: {
+				to: 0
+			}
+		}
+	});
+	
+	new SmartAni('.pic_1', {
+		triggerElement: '.section_4',
+		css: {
+			// opacity: {
+				// from: 0,
+				// to: 0.8
+			// },
+			translateY: {
+				to: 100
+			}
+		}
+	});
+	
+	new SmartAni('.pic_2', {
+		triggerElement: '.section_4',
+		triggerHeight: 80,
+		css: {
+			opacity: {
+				from: 0,
+				to: 0.8
+			},
+			translateY: {
+				to: 400
+			}
+		}
+	});
+	
+	new SmartAni('.pic_3', {
+		triggerElement: '.section_4',
+		triggerHeight: 80,
+		css: {
+			opacity: {
+				from: 0,
+				to: 0.8
+			},
+			translateY: {
+				to: -350
+			}
+		}
+	});
+	
+	new SmartAni('.pic_4', {
+		triggerElement: '.section_4',
+		css: {
+			opacity: {
+				from: 0,
+				to: 0.8
+			},
+			translateY: {
+				to: -100
+			}
+		}
+	});
+	
+	new SmartAni('.section_5 .txt', {
+		triggerElement: '.section_5',
+		css: {
+			opacity: {
+				from: -0.3,
+				to: 1
+			},
+			scaleX: {
+				from: 0.7,
+				to: 1
+			},
+			scaleY: {
+				from: 0.7,
+				to: 1
+			}
+		}
 	});
 </script>
 </body>
