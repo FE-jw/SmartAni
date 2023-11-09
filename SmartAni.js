@@ -1,25 +1,23 @@
-
+/**
+ * Version: 1.0.0
+ * Web: https://fe-jw.github.io/SmartAni
+ * Github: https://github.com/FE-jw/SmartAni
+ * Released: ####-##-##
+*/
 
 class SmartAni{
 	constructor(selector, options){
 		this.obj = document.querySelector(selector);
 		this.triggerElement = document.querySelector(options.triggerElement);
-		this.triggerHeight = options?.triggerHeight ?? 100;
+		this.triggerRange = options?.triggerRange ?? 100;
 		this.start = null;
 		this.end = null;
-		this.css = options.css;
+		this.keyframe = options.keyframe;
 		this.indicator = options?.indicator ?? false;
+		this.cssVar = '--smart-ani-percentage';
 		this.init();
 	}
 	
-	/**
-	 * trigger 활성화 지점 reset
-	 */
-	setTrigger(){
-		this.start = window.scrollY + this.triggerElement.getBoundingClientRect().top;
-		this.end = this.start + (this.triggerElement.offsetHeight * this.triggerHeight / 100);
-	}
-
 	/**
 	 * trigger start, end 표시(테스트용)
 	 */
@@ -36,11 +34,11 @@ class SmartAni{
 		
 		const triggerEnd = triggerStart.cloneNode();
 		
-		triggerStart.innerHTML = `#${this.obj.id} START`;
-		triggerStart.style.borderTop = '2px solid #f00';
+		triggerStart.innerHTML = 'START(Refresh when window resize)';
+		triggerStart.style.borderTop = '4px solid #f00';
 		triggerStart.style.top = this.start + 'px';
-		triggerEnd.innerHTML = `#${this.obj.id} END`;
-		triggerEnd.style.borderBottom = '2px solid #f00';
+		triggerEnd.innerHTML = 'END(Refresh when window resize)';
+		triggerEnd.style.borderBottom = '4px solid #00f';
 		triggerEnd.style.top = this.end + 'px';
 		triggerEnd.style.transform = 'translateY(-100%)';
 
@@ -48,98 +46,73 @@ class SmartAni{
 	}
 
 	/**
-	 * 결과값 설정
+	 * 범위 설정
 	 */
-	setTransform(){
+	setTrigger(){
+		this.start = window.scrollY + this.triggerElement.getBoundingClientRect().top;
+		this.end = this.start + (this.triggerElement.offsetHeight * this.triggerRange / 100);
+	}
+
+	/**
+	 * 스크롤 % 설정
+	 */
+	setScrollPercent(){
 		const thisHeight = this.end - this.start;
 		const trigger = window.scrollY + window.innerHeight;
 		const triggerY = trigger - this.start;
 		const currentPercent = triggerY * 100 / thisHeight;
-		const effect = {};
 
-		effect.from = {
-			scaleX: this.css.scaleX?.from ?? 1,
-			scaleY: this.css.scaleY?.from ?? 1,
-			skewX: this.css.skewX?.from ?? 0,
-			skewY: this.css.skewY?.from ?? 0,
-			translateX: this.css.translateX?.from ?? 0,
-			translateY: this.css.translateY?.from ?? 0
-		};
-		effect.to = {
-			scaleX: this.css.scaleX?.to ?? 1,
-			scaleY: this.css.scaleY?.to ?? 1,
-			skewX: this.css.skewX?.to ?? 0,
-			skewY: this.css.skewY?.to ?? 0,
-			translateX: this.css.translateX?.to ?? 0,
-			translateY: this.css.translateY?.to ?? 0
-		};
-		effect.change = {
-			scaleX: effect.to.scaleX - effect.from.scaleX,
-			scaleY: effect.to.scaleY - effect.from.scaleY,
-			skewX: effect.to.skewX - effect.from.skewX,
-			skewY: effect.to.skewY - effect.from.skewY,
-			translateX: effect.to.translateX - effect.from.translateX,
-			translateY: effect.to.translateY - effect.from.translateY
-		};
-		effect.result = {
-			scaleX: null,
-			scaleY: null,
-			skewX: null,
-			skewY: null,
-			translateX: null,
-			translateY: null
+		if(trigger <= this.start){
+			this.obj.style.setProperty(this.cssVar, 0);
+		}else if(trigger > this.start && trigger < this.end){
+			this.obj.style.setProperty(this.cssVar, currentPercent);
+		}else if(trigger >= this.end){
+			this.obj.style.setProperty(this.cssVar, 100);
+		}
+	}
+
+	/**
+	 * 결과값 설정
+	 */
+	setEffect(){
+		this.setScrollPercent();
+
+		const effect = Object.keys(this.keyframe);
+		const referValue = {
+			transform: ''
 		};
 
-		// opacity 있는 경우
-		if(this.css.opacity){
-			effect.from.opacity = this.css.opacity?.from ?? 1;
-			effect.to.opacity = this.css.opacity?.to ?? 1;
-			effect.change.opacity = effect.to.opacity - effect.from.opacity;
-			effect.result.opacity = null;
+		for(let idx = 0;idx < effect.length;idx++){
+			const formula = `calc(var(--smart-ani-${effect[idx]}-from) + var(--smart-ani-${effect[idx]}-change) * var(${this.cssVar}) / 100)`;
+			let unit = '';
+
+			if(effect[idx].startsWith('translate')){
+				unit = this.keyframe[effect[idx]].unit ?? 'px';
+			}else if(effect[idx].startsWith('skew') || effect[idx].startsWith('rotate')){
+				unit = 'deg';
+			}
+
+			this.obj.style.setProperty(`--smart-ani-${effect[idx]}-from`, this.keyframe[effect[idx]].from + unit);
+			this.obj.style.setProperty(`--smart-ani-${effect[idx]}-to`, this.keyframe[effect[idx]].to + unit);
+			this.obj.style.setProperty(`--smart-ani-${effect[idx]}-change`, this.keyframe[effect[idx]].to - this.keyframe[effect[idx]].from + unit);
+
+			if(!effect[idx].startsWith('opacity')){
+				referValue.transform += `${effect[idx]}(${formula}) `;
+			}else if(effect[idx].startsWith('opacity')){
+				referValue.opacity = formula;
+				this.obj.style.opacity = referValue.opacity;
+			}
 		}
 		
-		// 결과값 저장
-		for(let prop in effect.result){
-			if(effect.to[prop] != effect.result[prop]){
-				effect.result[prop] = effect.from[prop] + (effect.change[prop] * currentPercent / 100);
-			}else{
-				effect.result[prop] = effect.from[prop] + effect.change[prop];
-			}
-		}
-
-		if(trigger >= this.end){
-			for(let key of Object.keys(effect.to)){
-				this.obj.style.setProperty(`--smart-ani-${key}`, effect.to[key]);
-			}
-		}else if(trigger <= this.start){
-			for(let key of Object.keys(effect.from)){
-				this.obj.style.setProperty(`--smart-ani-${key}`, effect.from[key]);
-			}
-		}else if(trigger > this.start && trigger < this.end){
-			for(let key of Object.keys(effect.result)){
-				this.obj.style.setProperty(`--smart-ani-${key}`, effect.result[key]);
-			}
-		}
+		this.obj.style.transform = referValue.transform;
 	}
 
 	/**
 	 * 초기화 함수
 	 */
 	init(){
-		/**
-		 * transform:matrix(a, b, c, d, tx, ty);
-		 * a: scaleX
-		 * b: skewY
-		 * c: skewX
-		 * d: scaleY
-		 * tx: translateX
-		 * ty: translateY
-		 */
-
 		this.setTrigger();
-		this.setTransform();
-		this.obj.style.transform = 'matrix(var(--smart-ani-scaleX), var(--smart-ani-skewY), var(--smart-ani-skewX), var(--smart-ani-scaleY), var(--smart-ani-translateX), var(--smart-ani-translateY)';
-		if(this.css.opacity) this.obj.style.opacity = 'var(--smart-ani-opacity)';
+		this.setEffect();
 		
 		window.addEventListener('load', () => {
 			if(this.indicator) this.showIndicator();
@@ -147,7 +120,7 @@ class SmartAni{
 
 		['load', 'scroll', 'resize', 'orientationchange'].forEach(event => {
 			window.addEventListener(event, () => {
-				this.setTransform();
+				this.setEffect();
 			});
 		});
 

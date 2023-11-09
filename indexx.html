@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>SmartAni</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fe-jw/fe-jw.github.io/css/font.min.css">
+<link rel="stylesheet" href="css/highlight-material-11.4.0.min.css">
+<link rel="stylesheet" href="css/style.min.css">
+</head>
+
+<body>
+<div class="wrap">
+	<header class="header">
+		<div class="header-wrap">
+			<h1 class="main-tit">
+				<strong class="name">Smart Ani</strong>
+				<span class="ver">Ver 1.0.0</span>
+			</h1>
+			<span class="main-desc">Smart Animation by Scroll</span>
+		</div>
+	</header>
+	<div class="container">
+		<div class="section_1 section">
+			<div id="square_1" class="square"></div>
+			<div id="square_2" class="square"></div>
+			<div id="square_3" class="square"></div>
+			<div id="square_4" class="square"></div>
+		</div>
+		<div class="section_2 section">
+			<div id="circle_1" class="circle"></div>
+			<div id="circle_2" class="circle"></div>
+			<div id="circle_3" class="circle"></div>
+			<div id="circle_4" class="circle"></div>
+		</div>
+		<div class="section_3 section">
+			<div id="star_1" class="star"></div>
+			<div id="star_2" class="star"></div>
+			<div id="star_3" class="star"></div>
+			<div id="star_4" class="star"></div>
+		</div>
+		<div class="section_4 section"></div>
+		<div class="section_5 section"></div>
+	</div>
+	<footer class="footer">
+		<address class="copyright">&copy; JW</address>
+	</footer>
+	<button type="button" class="btn-top" title="scroll to the top">scroll to the top</button>
+</div>
+<script src="js/highlight-8.7.min.js"></script>
+<script src="SmartAni.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+
+document.querySelector('.btn-top').addEventListener('click', function(){
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth'
+	});
+});
+
+window.addEventListener('scroll', function(){
+	var headerHeight = document.querySelector('.header').offsetHeight;
+
+	if(window.scrollY > headerHeight){
+		document.querySelector('.btn-top').classList.add('on');
+	}else{
+		document.querySelector('.btn-top').classList.remove('on');
+	}
+});
+
+new SmartAni('#square_1', {
+	triggerElement: '.section_1',
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 50,
+			unit: 'vw'
+		}
+	}
+});
+new SmartAni('#square_2', {
+	triggerElement: '.section_1',
+	keyframe: {
+		opacity: {
+			from: 1,
+			to: 0.2
+		},
+		translateX: {
+			from: 0,
+			to: -60,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: 500,
+			unit: '%'
+		},
+		scaleX: {
+			from: 1,
+			to: 1.5
+		},
+		scaleY: {
+			from: 1,
+			to: 1.5
+		}
+	}
+});
+new SmartAni('#square_3', {
+	triggerElement: '.section_1',
+	triggerRange: 200,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 60,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: -500,
+			unit: '%'
+		},
+		scaleX: {
+			from: 1,
+			to: 2
+		},
+		scaleY: {
+			from: 1,
+			to: 2
+		},
+		rotate: {
+			from: 0,
+			to: 720
+		}
+	}
+});
+new SmartAni('#square_4', {
+	triggerElement: '.section_1',
+	triggerRange: 150,
+	keyframe: {
+		opacity: {
+			from: 1,
+			to: 0.02
+		},
+		translateX: {
+			from: 0,
+			to: -30,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: -600
+		},
+		scaleX: {
+			from: 1,
+			to: 1.5
+		},
+		scaleY: {
+			from: 1,
+			to: 1.5
+		},
+		rotate: {
+			from: 0,
+			to: 180
+		}
+	}
+});
+
+new SmartAni('#circle_1', {
+	triggerElement: '.section_2',
+	triggerRange: 150,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: -40,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: -40,
+			unit: 'vw'
+		},
+		scaleX: {
+			from: 1,
+			to: 1.5
+		},
+		scaleY: {
+			from: 1,
+			to: 1.5
+		},
+		opacity: {
+			from: 1,
+			to: 0.5
+		}
+	}
+});
+new SmartAni('#circle_2', {
+	triggerElement: '.section_2',
+	triggerRange: 150,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 40,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: -40,
+			unit: 'vw'
+		},
+		scaleX: {
+			from: 1,
+			to: 1.5
+		},
+		scaleY: {
+			from: 1,
+			to: 1.5
+		},
+		opacity: {
+			from: 1,
+			to: 0.5
+		}
+	}
+});
+new SmartAni('#circle_3', {
+	triggerElement: '.section_2',
+	triggerRange: 150,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: -40,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: 40,
+			unit: 'vw'
+		},
+		scaleX: {
+			from: 1,
+			to: 1.5
+		},
+		scaleY: {
+			from: 1,
+			to: 1.5
+		},
+		opacity: {
+			from: 1,
+			to: 0.5
+		}
+	}
+});
+new SmartAni('#circle_4', {
+	triggerElement: '.section_2',
+	triggerRange: 150,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 40,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: 40,
+			unit: 'vw'
+		},
+		scaleX: {
+			from: 1,
+			to: 1.5
+		},
+		scaleY: {
+			from: 1,
+			to: 1.5
+		},
+		opacity: {
+			from: 1,
+			to: 0.5
+		}
+	}
+});
+
+new SmartAni('#star_1', {
+	triggerElement: '.section_3',
+	triggerRange: 50,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 60,
+			unit: 'vw'
+		},
+		rotate: {
+			from: 0,
+			to: 360
+		},
+		opacity: {
+			from: 0.2,
+			to: 1
+		}
+	}
+});
+new SmartAni('#star_2', {
+	triggerElement: '.section_3',
+	triggerRange: 60,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 60,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: 120,
+			unit: '%'
+		},
+		rotate: {
+			from: 0,
+			to: 360
+		},
+		opacity: {
+			from: 0.2,
+			to: 1
+		}
+	}
+});
+new SmartAni('#star_3', {
+	triggerElement: '.section_3',
+	triggerRange: 70,
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 60,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: 240,
+			unit: '%'
+		},
+		rotate: {
+			from: 0,
+			to: 360
+		},
+		opacity: {
+			from: 0.2,
+			to: 1
+		}
+	}
+});
+new SmartAni('#star_4', {
+	triggerElement: '.section_3',
+	keyframe: {
+		translateX: {
+			from: 0,
+			to: 60,
+			unit: 'vw'
+		},
+		translateY: {
+			from: 0,
+			to: 360,
+			unit: '%'
+		},
+		rotate: {
+			from: 0,
+			to: 360
+		},
+		opacity: {
+			from: 0.2,
+			to: 1
+		}
+	}
+});
+
+
+</script>
+</body>
+</html>
